@@ -16,9 +16,7 @@ import {
   Title,
   Button,
   Row,
-  Card,
   RowTitle,
-  Scroller,
   Shell,
   SidebarSlot,
   Main
@@ -42,7 +40,6 @@ function usePrefersReducedMotion() {
 function App() {
   const [items, setItems] = useState<T_VideoItem[]>([]);
   const [featured, setFeatured] = useState<T_VideoItem | null>(null);
-  const [loading, setLoading] = useState(true);
 
   const [showVideo, setShowVideo] = useState(false);
   const prefersReduced = usePrefersReducedMotion();
@@ -50,20 +47,16 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
         const timeout_id = setTimeout(async () => {
           const { featured, trending } = await Get_Videos();
           setItems(trending);
           setFeatured(featured);
         }, 1200)
-        setLoading(false);
 
         return () => clearTimeout(timeout_id)
       } catch (e) {
-        setLoading(false);
         console.error(e);
       } finally {
-        setLoading(false);
       }
     })();
   }, []);
