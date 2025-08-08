@@ -1,0 +1,1 @@
+export type T_CarouselProps = { items: any[]; onSlideClick: (props: any) => void };
