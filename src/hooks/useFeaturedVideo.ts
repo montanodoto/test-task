@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { EMBED_PLAYER_PARAMS } from "../../constants";
+import { EMBED_PLAYER_PARAMS, EMBED_URL } from "../constants";
 
-import type { TEmbedVideoPlayerProps, TMDBVideosResponse } from "./types";
+import type { TEmbedVideoPlayerProps, TMDBVideosResponse } from "../components/embeded_video_player/types";
 
 const get_params = (autoPlay: boolean | undefined, mute: boolean | undefined) => ({
     autoplay: autoPlay ? "1" : "0",
@@ -53,7 +53,7 @@ export default function useFeaturedVideo({ movieId, apiKey, bearerToken, autoPla
         if (!videoKey) return "";
         const params = get_params(autoPlay, mute);
         const embed_params = new URLSearchParams(params).toString();
-        return `https://www.youtube.com/embed/${videoKey}?${embed_params}`;
+        return `${EMBED_URL}/${videoKey}?${embed_params}`;
     }, [videoKey, autoPlay, mute]);
 
     return { videoKey, loading, error, src }

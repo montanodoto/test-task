@@ -1,4 +1,4 @@
-import useFeaturedVideo from "./useFeaturedVideo";
+import useFeaturedVideo from "../../hooks/useFeaturedVideo";
 
 import { TMDB_TOKEN } from "../../constants";
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { UserIcon } from "lucide-react";
 
 import Sidebar from "./components/sidebar";
@@ -28,14 +28,7 @@ function App() {
 
   const handleStoreFeatured = useCallback((feat: any) => {
     localStorage.setItem('featured', feat.id);
-    console.log('LOCAL_STORAGE_SET_ITEM::::', localStorage.getItem('featured'));
     set_featured(feat);
-  }, []);
-
-  useEffect(() => {
-    const temp = localStorage.getItem('featured');
-
-    console.log("MOUNTED_STORAGE", temp)
   }, []);
 
   return (
