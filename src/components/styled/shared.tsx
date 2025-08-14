@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import styled from "styled-components";
+
 import { COLLAPSED } from "../sidebar/sidebar.styled";
 
 export const CARD_W = 120;
@@ -12,21 +13,41 @@ export const Page = styled.div`
 `;
 
 export const Kicker = styled.div`
-letter-spacing: .35em; color: var(--muted); font-size: 12px; margin-bottom: 10px; text-transform: uppercase;
+letter-spacing: .35em; 
+color: var(--muted); 
+font-size: 12px; 
+margin-bottom: 10px; 
+text-transform: uppercase;
 `;
 
 export const Title = styled.h1`
-  margin: 0 0 10px; font-size: clamp(36px, 6vw, 72px); line-height: 1.05; font-weight: 800;
+  margin: 0 0 10px; 
+  font-size: clamp(36px, 6vw, 72px); 
+  line-height: 1.05; 
+  font-weight: 800;
   text-shadow: 0 6px 24px rgba(0,0,0,.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 `;
 
 export const Meta = styled.div`
-  display: flex; flex-wrap: wrap; gap: 14px; align-items: center; color: var(--muted); margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 14px; 
+  align-items: center; 
+  color: var(--muted); 
+  margin-bottom: 16px;
   & > span { opacity: .95; }
 `;
 
 export const Summary = styled.p`
-  max-width: 60ch; color: #e5e7eb; line-height: 1.65; margin: 0 0 24px;
+  font-size: 14px;
+  max-width: 60ch;
+  color: #e5e7eb;
+  line-height: 1.65; 
+  margin: 0 0 24px;
 `;
 
 export const Actions = styled.div`

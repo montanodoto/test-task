@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { UserIcon } from "lucide-react";
 
-import Get_Videos from "./services/get_videos";
-
 import Sidebar from "./components/sidebar";
-import BackgroundMedia from "./components/background_media";
 import { Hero, HeroBody, HeroContent } from "./components/styled/hero";
 import {
   Actions,
@@ -22,52 +19,24 @@ import {
   Main
 } from "./components/styled/shared";
 
-import type { T_VideoItem } from "./types/video.types";
 import Carousel from "./components/carousel";
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onChange = () => setReduced(mq.matches);
-    onChange();
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-  return reduced;
-}
+import useMovies from "./hooks/useMovies";
+import EmbedPlayer from "./components/embeded_video_player/embeded_video_player";
 
 function App() {
-  const [items, setItems] = useState<T_VideoItem[]>([]);
-  const [featured, setFeatured] = useState<T_VideoItem | null>(null);
+  const { list, featured, featured_details, set_featured } = useMovies();
 
-  const [showVideo, setShowVideo] = useState(false);
-  const prefersReduced = usePrefersReducedMotion();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const timeout_id = setTimeout(async () => {
-          const { featured, trending } = await Get_Videos();
-          setItems(trending);
-          setFeatured(featured);
-        }, 1200)
-
-        return () => clearTimeout(timeout_id)
-      } catch (e) {
-        console.error(e);
-      } finally {
-      }
-    })();
+  const handleStoreFeatured = useCallback((feat: any) => {
+    localStorage.setItem('featured', feat.id);
+    console.log('LOCAL_STORAGE_SET_ITEM::::', localStorage.getItem('featured'));
+    set_featured(feat);
   }, []);
 
   useEffect(() => {
-    setShowVideo(false);
-    if (!featured?.VideoUrl || prefersReduced) return;
+    const temp = localStorage.getItem('featured');
 
-    const t = setTimeout(() => setShowVideo(true), 2000);
-    return () => clearTimeout(t);
-  }, [featured?.Id, featured?.VideoUrl, prefersReduced]);
+    console.log("MOUNTED_STORAGE", temp)
+  }, []);
 
   return (
     <Shell>
@@ -80,26 +49,22 @@ function App() {
       </SidebarSlot>
       <Main>
         {featured ?
-          <Hero bg={featured.CoverImage}>
-            <BackgroundMedia
-              backdrop={featured.CoverImage}
-              videoUrl={featured.VideoUrl}
-              showVideo={showVideo}
-            />
+          <Hero bg={featured.poster_path}>
+            {featured && <EmbedPlayer movieId={featured.id} />}
             <HeroBody>
               <HeroContent>
                 <Kicker>Movie</Kicker>
-                <Title>{featured.Title}</Title>
+                <Title>{featured.title}</Title>
                 <Meta>
-                  <span>{new Date(featured.Date).getFullYear()}</span>
-                  <span>{featured.MpaRating}</span>
-                  <span>{`${Number(featured.Duration) / 6000}h`}</span>
+                  <span>{new Date(featured.release_date).getFullYear()}</span>
+                  <span>{featured.adult}</span>
+                  <span>{`${featured_details?.runtime} min`}</span>
                 </Meta>
                 <Summary>
-                  {featured.Description}
+                  {featured.overview}
                 </Summary>
                 <Actions>
-                  <Button><IconPlay /> Play</Button>
+                  <Button><IconPlay />Play</Button>
                   <Button variant="ghost"><IconInfo /> More Info</Button>
                 </Actions>
               </HeroContent>
@@ -107,9 +72,9 @@ function App() {
           </Hero> :
           <div style={{ padding: 24, opacity: .8, marginLeft: 40 }}>{"Loading…"}</div>
         }
-        {items && featured && <Row>
+        {list && featured && <Row>
           <RowTitle>Trending Now</RowTitle>
-          <Carousel items={items} onSlideClick={setFeatured} />
+          <Carousel items={list} onSlideClick={handleStoreFeatured} />
         </Row>}
       </Main>
     </Shell >

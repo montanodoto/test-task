@@ -7,6 +7,8 @@ import App from "./App";
 
 import { GlobalStyle } from "./styles";
 
+import 'keen-slider/keen-slider.min.css'
+
 const theme = {
   spacing: (n: number) => `${n * 4}px`,
   colors: { brand: "#4e8cff" }

@@ -1,0 +1,1 @@
+export const get_request_params = (key: string, value: string) => ({ headers: { [key]: value } });

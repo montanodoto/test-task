@@ -1,13 +1,24 @@
-export const HERO_BG =
-    "https://image.tmdb.org/t/p/original/mbm8k3GFhXS0ROd9AD1gqYbIFbM.jpg";
+export const SLIDER_OPTIONS = {
+    loop: true,
+    slides: {
+        perView: 16,
+        spacing: 16,
+    },
+};
 
-export const TRENDING: { id: string; title: string; poster: string }[] = [
-    { id: "kate", title: "Kate", poster: "/https_specials-1.png" },
-    { id: "sherlock", title: "Sherlock", poster: "/https_specials-2.png" },
-    { id: "hannibal", title: "Hannibal", poster: "/https_specials-3.png" },
-    { id: "julie", title: "Julie & The Phantoms", poster: "/https_specials-4.png" },
-    { id: "rednotice", title: "Red Notice", poster: "/https_specials-5.png" },
-    { id: "gooddoctor", title: "The Good Doctor", poster: "/https_specials-6.png" },
-    { id: "sandreas", title: "San Andreas", poster: "/https_specials-7.png" },
-    { id: "squid", title: "Squid Game", poster: "/https_specials-8.png" },
-];
+export const EMBED_PLAYER_PARAMS = {
+    modestbranding: "1",
+    rel: "0",
+    playsinline: "1",
+    controls: '0',
+    modestBranding: '1',
+    disablekb: '1',
+    showInfo: "0",
+    iv_load_policy: '3'
+}
+
+export const TMDB_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
+export const TMDB_POPULAR_URL = `https://api.themoviedb.org/3/movie/popular`;
+export const TMDB_BASE_URL = `https://api.themoviedb.org/3/movie`;
+export const TMDB_POSTER_URL = "https://image.tmdb.org/t/p/original";
+export const EMBED_URL = `https://www.youtube.com/embed`;
