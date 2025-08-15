@@ -133,7 +133,6 @@ export const SidebarIcon: React.FC<{ label: string; children: ReactNode }> = ({ 
   </div>
 );
 
-
 export const SidebarSlot = styled.div`
   position: relative;
   width: ${COLLAPSED}px;

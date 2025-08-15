@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { UserIcon } from "lucide-react";
 
 import Sidebar from "./components/sidebar";
-import { Hero, HeroBody, HeroContent } from "./components/styled/hero";
+import { Hero, HeroBody, HeroContent } from "./components/hero/hero";
 import {
   Actions,
   IconInfo,
@@ -22,9 +22,11 @@ import {
 import Carousel from "./components/carousel";
 import useMovies from "./hooks/useMovies";
 import EmbedPlayer from "./components/embeded_video_player/embeded_video_player";
+import { HeroSkeleton } from "./components/hero/hero.skeleton";
+import TrendingSkeleton from "./components/trending/trending.skeleton";
 
 function App() {
-  const { list, featured, featured_details, set_featured } = useMovies();
+  const { list, featured, featured_details, set_featured, loading } = useMovies();
 
   const handleStoreFeatured = useCallback((feat: any) => {
     localStorage.setItem('featured', feat.id);
@@ -43,7 +45,7 @@ function App() {
       <Main>
         {featured ?
           <Hero bg={featured.poster_path}>
-            {featured && <EmbedPlayer movieId={featured.id} />}
+            {featured && !loading && <EmbedPlayer movieId={featured.id} />}
             <HeroBody>
               <HeroContent>
                 <Kicker>Movie</Kicker>
@@ -63,8 +65,9 @@ function App() {
               </HeroContent>
             </HeroBody>
           </Hero> :
-          <div style={{ padding: 24, opacity: .8, marginLeft: 40 }}>{"Loading…"}</div>
+          <HeroSkeleton />
         }
+        {loading && <TrendingSkeleton />}
         {list && featured && <Row>
           <RowTitle>Trending Now</RowTitle>
           <Carousel items={list} onSlideClick={handleStoreFeatured} />

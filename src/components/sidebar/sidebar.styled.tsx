@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const COLLAPSED = 80;
+export const COLLAPSED = 60;
 export const EXPANDED = 300;
 
 export const motion = css`

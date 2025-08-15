@@ -14,8 +14,10 @@ export default function useMovies() {
     const [featured, set_featured] = useState<I_TMDBMovie>();
     const { featured_details } = useDetails(featured?.id);
     const options = useHttpOptions();
+    const [loading, set_loading] = useState(false);
 
     useEffect(() => {
+        set_loading(true)
         const saved_featured = JSON.parse(localStorage.getItem('featured') as string);
         const found = movies.find((f: any) => f.id === saved_featured);
 
@@ -34,11 +36,13 @@ export default function useMovies() {
                     set_featured({ ...movies[0], video_url: url });
                 }
             }
+            set_loading(false)
         })()
     }, [movies]);
 
 
     useEffect(() => {
+        set_loading(true);
         (async () => {
             const request = await fetch(TMDB_POPULAR_URL, options);
             const response: I_TMDBMovieListResponse = await request.json();
@@ -50,8 +54,9 @@ export default function useMovies() {
             }));
 
             set_movies(mapped_response);
+            set_loading(false);
         })();
     }, []);
 
-    return { list: movies, featured, featured_details, set_featured };
+    return { list: movies, featured, featured_details, set_featured, loading };
 }
